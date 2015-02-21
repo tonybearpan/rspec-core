@@ -87,6 +87,40 @@ module RSpec::Core
       end
     end
 
+    describe "#rerun_failures=" do
+      context "when set to true" do
+        it 'assigns what to run from the previously persisted failures' do
+          failures = %w[ ./spec_1.rb[1:1] ]
+          persister = instance_double(LastRunPersister, :failures_from_last_run => failures)
+          allow(LastRunPersister).to receive(:for_current_project) { persister }
+
+          config.rerun_failures = true
+
+          expect(config.files_to_run).to contain_exactly("./spec_1.rb")
+          expect(inclusion_filter).to eq(:ids => { "./spec_1.rb" => ["1:1"] })
+        end
+
+        it 'indicates it has been set' do
+          expect {
+            config.rerun_failures = true
+          }.to change { config.rerun_failures? }.from(a_falsey_value).to(true)
+        end
+      end
+
+      context "when set to false" do
+        it 'does nothing' do
+          expect {
+            config.rerun_failures = false
+          }.not_to change { config.files_to_run }
+        end
+
+        it 'indicates it has been set to false' do
+          config.rerun_failures = false
+          expect(config.rerun_failures?).to be false
+        end
+      end
+    end
+
     describe "#requires=" do
       def absolute_path_to(dir)
         File.expand_path("../../../../#{dir}", __FILE__)

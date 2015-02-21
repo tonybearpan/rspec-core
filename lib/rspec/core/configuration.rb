@@ -225,6 +225,11 @@ module RSpec
       add_setting :run_all_when_everything_filtered
 
       # @macro add_setting
+      # Run only the examples that failed on the last run.
+      # (default: `false`).
+      add_setting :rerun_failures
+
+      # @macro add_setting
       # Color to use to indicate success.
       # @param color [Symbol] defaults to `:green` but can be set to one of the
       #   following: `[:black, :white, :red, :green, :yellow, :blue, :magenta,
@@ -800,7 +805,14 @@ module RSpec
       # The spec files RSpec will run.
       # @return [Array] specified files about to run
       def files_to_run
-        @files_to_run ||= get_files_to_run(@files_or_directories_to_run)
+        @files_to_run ||= begin
+          if rerun_failures?
+            failures = LastRunPersister.for_current_project.failures_from_last_run
+            self.files_or_directories_to_run = failures
+          end
+
+          get_files_to_run(@files_or_directories_to_run)
+        end
       end
 
       # Creates a method that delegates to `example` including the submitted

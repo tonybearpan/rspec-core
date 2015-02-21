@@ -90,6 +90,13 @@ RSpec.describe RSpec::Core::ConfigurationOptions, :isolated_directory => true, :
       opts.configure(config)
     end
 
+    it "sets `rerun_failures` before `requires` so users can check `files_to_run` in a spec_helper loaded by `--require`" do
+      opts = config_options_object(*%w[--require spec_helper --rerun-failures])
+      expect(config).to receive(:force).with(:rerun_failures => true).ordered
+      expect(config).to receive(:requires=).ordered
+      opts.configure(config)
+    end
+
     it "sets default_path before `files_or_directories_to_run` since it relies on it" do
       opts = config_options_object(*%w[--default-path spec])
       expect(config).to receive(:force).with(:default_path => 'spec').ordered

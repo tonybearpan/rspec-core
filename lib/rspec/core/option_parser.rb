@@ -156,6 +156,10 @@ module RSpec::Core
 
 FILTERING
 
+        parser.on('--rerun-failures', "Run just the examples that failed on the last run.") do
+          options[:rerun_failures] = true
+        end
+
         parser.on('-P', '--pattern PATTERN', 'Load files matching pattern (default: "spec/**/*_spec.rb").') do |o|
           options[:pattern] = o
         end

@@ -65,6 +65,33 @@ RSpec.describe 'Filtering' do
     end
   end
 
+  context "using --rerun-failures" do
+    it 'reruns the examples that failed on the last run' do
+      write_file_formatted 'spec/string_spec.rb', """
+        RSpec.describe 'Strings' do
+          specify { expect('a').to eq('a') }
+          specify { expect('a').to eq('b') } # failure
+          specify { expect('c').to eq('c') }
+          specify { expect('c').to eq('b') } # failure
+        end
+      """
+
+      write_file_formatted 'spec/array_spec.rb', """
+        RSpec.describe 'Arrays' do
+          specify { expect([1, 2]).to include(1) }
+          specify { expect([1, 2]).to include(3) } # failure
+          specify { expect([1, 2]).to include(2) }
+        end
+      """
+
+      run_command ""
+      expect(last_cmd_stdout).to match(/7 examples, 3 failures/)
+
+      run_command "--rerun-failures"
+      expect(last_cmd_stdout).to match(/3 examples, 3 failures/)
+    end
+  end
+
   context "passing a line-number filter" do
     it "trumps exclusions, except for :if/:unless (which are absolute exclusions)" do
       write_file_formatted 'spec/a_spec.rb', """

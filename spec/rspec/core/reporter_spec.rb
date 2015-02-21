@@ -33,6 +33,24 @@ module RSpec::Core
 
         reporter.finish
       end
+
+      def example_with_id(id)
+        new_example.tap do |ex|
+          allow(ex).to receive_messages(:id => id)
+        end
+      end
+
+      it 'records the failed examples in order to support the `--rerun-failures` flag' do
+        persister = instance_spy(LastRunPersister)
+        allow(LastRunPersister).to receive(:for_current_project) { persister }
+
+        reporter.example_failed(example_with_id("id_1"))
+        reporter.example_failed(example_with_id("id_2"))
+
+        reporter.finish
+
+        expect(persister).to have_received(:persist_failures).with(%w[ id_1 id_2 ])
+      end
     end
 
     describe 'start' do

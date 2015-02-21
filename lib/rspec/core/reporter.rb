@@ -161,6 +161,7 @@ module RSpec::Core
     def stop
       @duration = (RSpec::Core::Time.now - @start).to_f if @start
       notify :stop, Notifications::ExamplesNotification.new(self)
+      record_failures
     end
 
     # @private
@@ -180,6 +181,11 @@ module RSpec::Core
 
     def seed_used?
       @configuration.seed && @configuration.seed_used?
+    end
+
+    def record_failures
+      ids = @failed_examples.map(&:id)
+      LastRunPersister.for_current_project.persist_failures(ids)
     end
   end
 
