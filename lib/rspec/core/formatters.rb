@@ -1,4 +1,3 @@
-RSpec::Support.require_rspec_support "directory_maker"
 # ## Built-in Formatters
 #
 # * progress (default) - Prints dots for passing examples, `F` for failures, `*`

@@ -4,6 +4,7 @@ $_rspec_core_load_started_at = Time.now
 
 require "rspec/support"
 RSpec::Support.require_rspec_support "caller_filter"
+RSpec::Support.require_rspec_support "directory_maker"
 
 RSpec::Support.define_optimized_require_for_rspec(:core) { |f| require_relative f }
 
@@ -34,6 +35,7 @@ RSpec::Support.define_optimized_require_for_rspec(:core) { |f| require_relative 
   example
   shared_example_group
   example_group
+  last_run_persister
 ].each { |name| RSpec::Support.require_rspec_core name }
 
 # Namespace for all core RSpec code.

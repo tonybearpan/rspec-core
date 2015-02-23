@@ -1,5 +1,3 @@
-RSpec::Support.require_rspec_support "directory_maker"
-
 module RSpec
   module Core
     # @private
