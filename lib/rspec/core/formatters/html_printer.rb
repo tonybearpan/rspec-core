@@ -123,7 +123,7 @@ module RSpec
 
 <div id="rspec-header">
   <div id="label">
-    <h1>RSpec Code Examples</h1>
+    <h1>RSpec Qiniu Examples</h1>
   </div>
 
   <div id="display-filters">
