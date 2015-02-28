@@ -5,7 +5,7 @@ module RSpec
     module Formatters
       # @private
       class HtmlPrinter
-        include ERB::Util # For the #h method.
+        include ERB::Util # for the #h method
         def initialize(output)
           @output = output
         end
@@ -28,14 +28,11 @@ module RSpec
 
         def print_example_passed(description, run_time)
           formatted_run_time = "%.5f" % run_time
-          @output.puts "    <dd class=\"example passed\">" \
-            "<span class=\"passed_spec_name\">#{h(description)}</span>" \
-            "<span class='duration'>#{formatted_run_time}s</span></dd>"
+          @output.puts "    <dd class=\"example passed\"><span class=\"passed_spec_name\">#{h(description)}</span><span class='duration'>#{formatted_run_time}s</span></dd>"
         end
 
         # rubocop:disable Style/ParameterLists
-        def print_example_failed(pending_fixed, description, run_time, failure_id,
-                                 exception, extra_content, escape_backtrace=false)
+        def print_example_failed(pending_fixed, description, run_time, failure_id, exception, extra_content, escape_backtrace=false)
           # rubocop:enable Style/ParameterLists
           formatted_run_time = "%.5f" % run_time
 
@@ -57,9 +54,7 @@ module RSpec
         end
 
         def print_example_pending(description, pending_message)
-          @output.puts "    <dd class=\"example not_implemented\">" \
-            "<span class=\"not_implemented_spec_name\">#{h(description)} " \
-            "(PENDING: #{h(pending_message)})</span></dd>"
+          @output.puts "    <dd class=\"example not_implemented\"><span class=\"not_implemented_spec_name\">#{h(description)} (PENDING: #{h(pending_message)})</span></dd>"
         end
 
         def print_summary(duration, example_count, failure_count, pending_count)
@@ -69,11 +64,9 @@ module RSpec
 
           formatted_duration = "%.5f" % duration
 
-          @output.puts "<script type=\"text/javascript\">" \
-            "document.getElementById('duration').innerHTML = \"Finished in " \
-            "<strong>#{formatted_duration} seconds</strong>\";</script>"
-          @output.puts "<script type=\"text/javascript\">" \
-            "document.getElementById('totals').innerHTML = \"#{totals}\";</script>"
+          @output.puts "<script type=\"text/javascript\">document.getElementById('duration').innerHTML = \"Finished in <strong>#{formatted_duration} seconds</strong>\";</script>"
+          @output.puts "<script type=\"text/javascript\">document.getElementById('totals').innerHTML = \"#{totals}\";</script>"
+          @output.puts "<script type=\"text/javascript\">make_siblings_toggle(toggle_hander);</script>"
           @output.puts "</div>"
           @output.puts "</div>"
           @output.puts "</body>"
@@ -98,17 +91,13 @@ module RSpec
         end
 
         def make_example_group_header_red(group_id)
-          @output.puts "    <script type=\"text/javascript\">" \
-                       "makeRed('div_group_#{group_id}');</script>"
-          @output.puts "    <script type=\"text/javascript\">" \
-                       "makeRed('example_group_#{group_id}');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeRed('div_group_#{group_id}');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeRed('example_group_#{group_id}');</script>"
         end
 
         def make_example_group_header_yellow(group_id)
-          @output.puts "    <script type=\"text/javascript\">" \
-                       "makeYellow('div_group_#{group_id}');</script>"
-          @output.puts "    <script type=\"text/javascript\">" \
-                       "makeYellow('example_group_#{group_id}');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeYellow('div_group_#{group_id}');</script>"
+          @output.puts "    <script type=\"text/javascript\">makeYellow('example_group_#{group_id}');</script>"
         end
 
       private
@@ -117,16 +106,16 @@ module RSpec
           "style=\"margin-left: #{(number_of_parents - 1) * 15}px;\""
         end
 
-        # rubocop:disable LineLength
         REPORT_HEADER = <<-EOF
 <div class="rspec-report">
 
 <div id="rspec-header">
   <div id="label">
-    <h1>RSpec Qiniu Examples</h1>
+    <h1>RSpec Code Examples</h1>
   </div>
 
   <div id="display-filters">
+    <h2>hllooo world</h2>
     <input id="passed_checkbox"  name="passed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="1" /> <label for="passed_checkbox">Passed</label>
     <input id="failed_checkbox"  name="failed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="2" /> <label for="failed_checkbox">Failed</label>
     <input id="pending_checkbox" name="pending_checkbox" type="checkbox" checked="checked" onchange="apply_filters()" value="3" /> <label for="pending_checkbox">Pending</label>
@@ -141,9 +130,7 @@ module RSpec
 
 <div class="results">
 EOF
-        # rubocop:enable LineLength
 
-        # rubocop:disable LineLength
         GLOBAL_SCRIPTS = <<-EOF
 
 function addClass(element_id, classname) {
@@ -219,8 +206,52 @@ function assign_display_style_for_group(classname, display_flag, subgroup_flag) 
     }
   }
 }
+
+function make_siblings_toggle(func){
+  var dt = document.getElementsByTagName('dt');
+  for(var i=0; i<dt.length;i++) {
+    dt[i].addEventListener('click',func,false);
+  }
+}
+
+function toggle_hander(){
+
+  var dd = this.parentElement.children;
+
+  for(var i=0; i<dd.length;i++) {
+    if (dd[i].nodeName === 'DD'|| dd[i].nodeName === 'dd') {
+       if (dd[i].style.display !== 'none') {
+          dd[i].style.display = 'none';
+        } else {
+          dd[i].style.display = 'block';
+        }
+      }
+  }
+
+  if (this.parentElement.style.marginLeft !== '15px') {
+    var next = this.parentElement.parentElement.nextSibling;
+      while (next) {
+        if(next.nodeName === '#text') {
+          next = next.nextSibling;
+          continue;
+        }
+        var dl = next.querySelector('dl');
+        if (dl.style.marginLeft !== '15px' ){
+          break;
+        } else {
+            if (next.style.display !== 'none') {
+              next.style.display = 'none';
+            } else {
+              next.style.display = 'block';
+            }
+        }
+        next = next.nextSibling;
+      }
+  }
+
+}
+
 EOF
-        # rubocop:enable LineLength
 
         GLOBAL_STYLES = <<-EOF
 #rspec-header {
