@@ -115,6 +115,11 @@ module RSpec
   </div>
 
   <div id="display-filters">
+<<<<<<< HEAD
+=======
+    <input id="toggle_checkbox"  name="toggle_checkbox"  type="checkbox" onchange="toggle_menu()" value="1" /> <label for="toggle_checkbox">toogle menu</label>
+
+>>>>>>> update, add toggle all menu feature
     <input id="passed_checkbox"  name="passed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="1" /> <label for="passed_checkbox">Passed</label>
     <input id="failed_checkbox"  name="failed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="2" /> <label for="failed_checkbox">Failed</label>
     <input id="pending_checkbox" name="pending_checkbox" type="checkbox" checked="checked" onchange="apply_filters()" value="3" /> <label for="pending_checkbox">Pending</label>
@@ -211,6 +216,13 @@ function make_siblings_toggle(func){
   for(var i=0; i<dt.length;i++) {
     dt[i].addEventListener('click',func,false);
   }
+}
+
+function toggle_menu() {
+    var dt = document.getElementsByTagName('dt');
+    for(var i=0; i<dt.length;i++) {
+      dt[i].click();
+    }
 }
 
 function toggle_hander(){
