@@ -115,7 +115,7 @@ module RSpec
   </div>
 
   <div id="display-filters">
-    <input id="toggle_checkbox"  name="toggle_checkbox"  type="checkbox" onchange="toggle_menu()" value="1" /> <label for="toggle_checkbox">toogle menu</label>
+    <input id="toggle_checkbox"  name="toggle_checkbox"  type="checkbox" onchange="toggle_menu()" value="1" /> <label for="toggle_checkbox">折叠目录</label>
 
     <input id="passed_checkbox"  name="passed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="1" /> <label for="passed_checkbox">Passed</label>
     <input id="failed_checkbox"  name="failed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="2" /> <label for="failed_checkbox">Failed</label>
